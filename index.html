@@ -66,15 +66,125 @@
 		}
 	</style>
 	<script language="JavaScript">
-		function ANS(this_){			
+		var total="0";
+		var total_n=0;
+		var op;
+		var opt=false;
+		var r_num=0;
+		var log="";
+		function apply(op){
+			switch(op){
+					case "+":			
+						alert("??"+op+" "+total+" "+r_num);
+						if(!opt)
+							{							
+							tmp = parseInt(r_num);
+							}
+							
+						else						
+							tmp = parseInt(total)+parseInt(r_num);
+						total = tmp.toString();
+						ans.innerHTML=total;
+						alert("end:" + op+" "+total+" "+r_num +" "+opt);
+						opt=true;						
+						break;
+					case "-":
+						alert("?2?"+op+" "+total+" "+r_num);
+						
+						if(!opt)
+							{							
+							tmp = parseInt(r_num);
+							}							
+						else						
+							tmp = parseInt(total)-parseInt(r_num);
+						
+						total = tmp.toString();
+						ans.innerHTML=total;
+						opt=true;
+						break;
+					case "x":
+						alert(op);
+						tmp = parseInt(total)*parseInt(r_num);
+						total = tmp.toString();
+						ans.innerHTML=total;
+						opt=true;
+						break;
+					case "%":
+						alert(op);
+						tmp = parseInt(total)/parseInt(r_num);
+						total = tmp.toString();
+						ans.innerHTML=total;
+						opt=true;
+						break;
+					case "Mod":
+						alert(op);
+						tmp = parseInt(total)%parseInt(r_num);
+						total = tmp.toString();
+						ans.innerHTML=total;
+						opt=true;
+						break;
+				}		
+		}
+		
+		function ANS(this_,t){			
+			/*
+			0 = number
+			1 = operator
+			2 = other function
+			3= empty
+			//*/
 			
-			alert(this_.innerHTML);
+			input = this_.innerHTML;
+			ans = document.getElementById("ans");	
+			r_num=ans.innerHTML;
+			switch(t)
+			{
+				case 0:
+				
+					if(ans.innerHTML=="0"||opt){							
+						ans.innerHTML = input;
+					}						
+					else{						
+						ans.innerHTML+=input;
+						
+					}
+					
+					break;
+					
+				case 1:
+					
+					if(input=="="){	
+						//if(opt)
+							apply(op);	
+					}
+					else{						
+							apply(input);
+							op = input;
+					}
+					
+					break;
+				
+				case 2:
+					switch(input){
+						case "C":
+								ans.innerHTML=0;
+								total=0;
+								opt=false;
+								r_num=0;
+								break;
+						case "CE":ans.innerHTML=0;break;
+					}
+				
+					break;
+				
+				case 3:break;
 			
-			//t = document.getElementById("ans").innerHTML;
-		//	if(!t){
-			//	document.getElementById("ans").innerHTML=
-			//}
-		//	document.getElementById("ans").innerHTML=number;
+			
+			
+			}
+			log+=input;
+			//alert("NOW:" + log);
+		
 		}
 		
 	</script>
@@ -109,38 +219,38 @@
 			</tr>
 		</table>
 		<!--下方按鈕區-->
-		<div id="btns">
-			
-			<button type="button" class="mybtn_top" onclick="test(this)">&nbsp</button>
-			<button type="button" class="mybtn_top" onclick="ANS(this)">Mod</button>
-			<button type="button" class="mybtn_top" onclick="ANS(this)">CE</button>
-			<button type="button" class="mybtn_top" onclick="ANS(this)">C</button>
-			<button type="button" class="mybtn_top" onclick="ANS(this)">←</button>
-			<button type="button" class="mybtn_top" onclick="ANS(this)">%</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">A</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">B</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">7</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">8</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">9</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">x</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">C</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">D</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">4</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">5</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">6</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">-</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">E</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">F</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">1</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">2</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">3</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">+</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">&nbsp</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">&nbsp</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">±</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">0</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">&nbsp</button>
-			<button type="button" class="mybtn" onclick="ANS(this)">=</button>
+		
+		<div id="btns">			
+			<button type="button" class="mybtn_top" onclick="test(this,3)">&nbsp</button>
+			<button type="button" class="mybtn_top" onclick="ANS(this,1)">Mod</button>
+			<button type="button" class="mybtn_top" onclick="ANS(this,2)">CE</button>
+			<button type="button" class="mybtn_top" onclick="ANS(this,2)">C</button>
+			<button type="button" class="mybtn_top" onclick="ANS(this,2)">←</button>
+			<button type="button" class="mybtn_top" onclick="ANS(this,1)">%</button>
+			<button type="button" class="mybtn" onclick="ANS (this,0) ">A</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">B</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">7</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">8</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">9</button>
+			<button type="button" class="mybtn" onclick="ANS(this,1)">x</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">C</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">D</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">4</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">5</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">6</button>
+			<button type="button" class="mybtn" onclick="ANS(this,1)">-</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">E</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">F</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">1</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">2</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">3</button>
+			<button type="button" class="mybtn" onclick="ANS(this,1)">+</button>
+			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp</button>
+			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp</button>
+			<button type="button" class="mybtn" onclick="ANS(this,2)">±</button>
+			<button type="button" class="mybtn" onclick="ANS(this,0)">0</button>
+			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp</button>
+			<button type="button" class="mybtn" onclick="ANS(this,1)">=</button>
 			
 			
 		</div>
