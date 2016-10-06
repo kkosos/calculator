@@ -10,24 +10,38 @@
 			border-radius:5px;
 			border:2px solid red; 
 			width:440px;
-			height:720px
+			height:720px;
+			overflow:auto;
 		}
 		#name1{
 			text-align:center;
 			font-size: xx-large;
 			font-weight:800;
+			overflow:auto;
 		}
 		#ans{
-			text-align:right;
+			display:inline-block;
+			text-align:right; 
+			left:1%;
+			margin-left:200px;
+			
+			overflow:auto;
+		}
+		#sign{
+			display:inline-block;
+			text-align:left; 
+			right:1%;		
+			overflow:auto;
 		}
 		#num_base{
 			width:100%;
-			
+			overflow:auto;
 			text-align:left;
 			
 		}
 		#btns{
 			border: 1px solid black;
+			
 		}
 		
 		.td_left {
@@ -35,12 +49,14 @@
 		font-size: x-large;
 		border: 1px solid black;
 		width:20%;
+		overflow:auto;
 		}
 		.td_right{
 		font-size: medium;
 		width:60%;
 		text-align:center;
 		border: 1px solid red;
+		overflow:auto;
 		}
 		.mybtn{
 				
@@ -60,86 +76,75 @@
 			margin-top:50px; 
 			margin-bottom:20px; 
 			text:center;
-			border:2px #C10066 outset;
-			
+			border:2px #C10066 outset;			
 			background-color:#DDDDDD;
 		}
+		
 	</style>
 	<script language="JavaScript">
 		var total="0";
-		var total_n=0;
-		var op="";
-		var op_last=false;
-		var opt=false;
+		var op="";		
 		var opt_st=0;
 		var l_num="0";
 		var r_num="0";
 		var r_num_log=0;
 		var log="";
+		function DectoHex(num){			
+			return (num>>>0).toString(16);			
+		}
+		function HextoDec(str){
+			return parseInt(str,16)&(2147483647*2+1);	
+		}
+		
+		
 		function apply(op,left,right){
-			
+			//alert("c1:"+left+ " "+right);
+			left = HextoDec(left);
+			right = HextoDec(right);
+
+			//parseInt(left,16)&(2147483647*2+1);
+			//right = parseInt(right,16)&(2147483647*2+1);
+			//alert("c2:"+left+" "+right+" "+op);
 				switch(op){				
 					case "+":			
-						//alert(">"+op+"< "+total+" "+r_num);
+						alert(">"+op+"< "+total+" "+r_num);
 						
-						total = parseInt(left)+parseInt(right);
-						
+						total = parseInt(left)+parseInt(right);						
 						alert("end:" + total+"="+left+ op +right +" "+opt_st);
-						ans.innerHTML=total.toString();	
-						l_num = total.toString();
+						//total is int
+						ans.innerHTML=DectoHex(total).toUpperCase();	
+						l_num = DectoHex(total);
+						//alert("end:" + total+"="+l_num);
 						opt_st=1;
 						
 						break;
-					/*case "-":
-						alert("?2?"+op+" "+total+" "+r_num);
-						
-						if(!opt)
-							{							
-							tmp = parseInt(r_num);
-							}							
-							
-						else						
-							tmp = parseInt(total)-parseInt(r_num);
-						
-						total = tmp.toString();
-						ans.innerHTML=total;
-						opt=true;
+					case "-":
+						total = parseInt(left)-parseInt(right);	
+						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
+						ans.innerHTML=DectoHex(total).toUpperCase();	
+						l_num = DectoHex(total);
+						opt_st=1;
 						break;
 					case "x":
-						alert(op);
-						if(!opt)														
-							tmp = parseInt(r_num);														
-						else						
-							tmp = parseInt(total)*parseInt(r_num);
-							
-						total = tmp.toString();
-						ans.innerHTML=total;
-						opt=true;
+						total = parseInt(left)*parseInt(right);	
+						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
+						ans.innerHTML=DectoHex(total).toUpperCase();	
+						l_num = DectoHex(total);
+						opt_st=1;
 						break;
 					case "%":
-						alert(op);
-						if(!opt)
-							{							
-							tmp = parseInt(r_num);
-							}							
-						else						
-							tmp = parseInt(total)/parseInt(r_num);
-						total = tmp.toString();
-						ans.innerHTML=total;
-						opt=true;
+						total = parseInt(left)/parseInt(right);	
+						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
+						ans.innerHTML=DectoHex(total).toUpperCase();	
+						l_num = DectoHex(total);
+						opt_st=1;
 						break;
 					case "Mod":
-						alert(op);
-						if(!opt)
-							{							
-							tmp = parseInt(r_num);
-							}							
-						else						
-							tmp = parseInt(total)%parseInt(r_num);
-						total = tmp.toString();
-						ans.innerHTML=total;
-						
-						opt=true;
+						total = parseInt(left)%parseInt(right);	
+						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
+						ans.innerHTML=DectoHex(total).toUpperCase();
+						l_num = DectoHex(total);
+						opt_st=1;
 						break;//*/
 				}
 				
@@ -156,7 +161,7 @@
 			input = this_.innerHTML;
 			ans = document.getElementById("ans");	
 			r_num=ans.innerHTML;
-			if(opt_st==2){r_num_log=r_num;alert(r_num_log)}
+			if(opt_st==2){r_num_log=r_num;}
 			switch(t)
 			{
 				case 0:
@@ -176,29 +181,34 @@
 				case 1:
 					
 					if(input=="="){	
-						alert("Calc" +l_num +op_last+ r_num + ">>>>"+r_num_log) ;
+						//alert("Calc" +l_num + r_num + ">>>>"+r_num_log) ;
 						apply(op,l_num,r_num_log);
-						
+
 					}
 					
 					else{
 						if(op==""&&opt_st==0)		
-							{
-								
+							{						
+							
 								op=input;								
 								l_num=r_num;
 								opt_st=1;
-								alert("first" +l_num + op);
+								document.getElementById("sign").innerHTML=op;
+								//alert("first" +l_num + op);
 							}
 						else if(opt_st==1)
 							{
 								op=input;
-								alert("change" + op);
+								document.getElementById("sign").innerHTML=op;
+								//alert("change" + op);
 								
-								op_last=op;
 							}
 						else if(opt_st==2){
+							
+							
+							document.getElementById("sign").innerHTML=op;
 							apply(op,l_num,r_num);
+							op=input;
 							
 						}
 							
@@ -210,28 +220,44 @@
 					switch(input){
 						case "C":
 								ans.innerHTML=0;
-								total=0;
-								opt=false;
+								total=0;								
 								opt_st=0;
 								l_num=0;
 								r_num=0;
 								r_num_log=0;
 								op="";
-								op_last="";
+								document.getElementById("sign").innerHTML="";
 								break;
 						case "CE":ans.innerHTML=0;break;
+						case "←":
+						tmp = ans.innerHTML;
+						if(tmp.length>1)					
+						ans.innerHTML=tmp.slice(0,tmp.length-1);						
+						else
+						ans.innerHTML=0;
+						break;
+						case "±":
+							//(-1>>>0).toString(16)      2147483647*2+1
+							tmp_dec = parseInt(ans.innerHTML,16)*(-1);
+							ans.innerHTML = (tmp_dec>>>0).toString(16).toUpperCase(); 
+							break;								
 					}
 				
 					break;
 				
 				case 3:break;
 			
-			
-			
 			}
 			log+=input;
-			//alert("NOW:" + log);
-		
+			/*document.getElementById("HEX").innerHTML=total.toString(16);
+			document.getElementById("DEC").innerHTML=total.toString(10);
+			document.getElementById("OCT").innerHTML=total.toString(8);
+			document.getElementById("BIN").innerHTML=total.toString(2);*/
+			
+			document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,16).toString(16);
+			document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML,16);
+			document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,16).toString(8);
+			document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,16).toString(2);
 		}
 		
 	</script>
@@ -242,27 +268,28 @@
 	<div id="border">
 		<!--上方標題區-->
 		<p id="name1">Calculator</p>
-		<div style="border:2px; width:90%;text-align:center;left:5%;position:relative;">
-			<p id="ans">0</p>
+		<div style="border:2px solid; width:90%;left:5%;position:relative;display:inline-block;overflow:auto;">
+			<span id="sign"></span>
+			<span id="ans">0</span>
 		</div>
 		<!--中間顯示區s-->
 		<!--document.getElementById("num_base").rows[0].cells[0].innerHTML-->
 		<table id="num_base">
 			<tr>
-				<td class="td_left">HEX</td>
-				<td class="td_right">0</td> 
+				<td class="td_left" >HEX</td>
+				<td class="td_right" id="HEX">0</td> 
 			</tr>
 						<tr>
-				<td class="td_left">DEC</td>
-				<td class="td_right">0</td> 
+				<td class="td_left" >DEC</td>
+				<td class="td_right" id="DEC">0</td> 
 			</tr>
 			<tr>
-				<td class="td_left">OCT</td>
-				<td class="td_right">0</td> 
+				<td class="td_left" >OCT</td>
+				<td class="td_right" id="OCT">0</td> 
 			</tr>
 			<tr>
-				<td class="td_left">BIN</td>
-				<td class="td_right">0</td> 
+				<td class="td_left" >BIN</td>
+				<td class="td_right" id="BIN">0</td> 
 			</tr>
 		</table>
 		<!--下方按鈕區-->
