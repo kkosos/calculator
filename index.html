@@ -4,83 +4,9 @@
 	<meta charset="utf-8">
 	<title>Calculator</title>
 	<link rel="icon" href="img/favicon.ico">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<style>
-		#border{
-			border-radius:5px;
-			border:2px solid red; 
-			width:440px;
-			height:720px;
-			overflow:auto;
-		}
-		#name1{
-			text-align:center;
-			font-size: xx-large;
-			font-weight:800;
-			overflow:auto;
-		}
-		#ans{
-			display:inline-block;
-			text-align:right; 
-			left:1%;
-			margin-left:200px;
-			
-			overflow:auto;
-		}
-		#sign{
-			display:inline-block;
-			text-align:left; 
-			right:1%;		
-			overflow:auto;
-		}
-		#num_base{
-			width:100%;
-			overflow:auto;
-			text-align:left;
-			
-		}
-		#btns{
-			border: 1px solid black;
-			
-		}
-		
-		.td_left {
-		font-weight:700;
-		font-size: x-large;
-		border: 1px solid black;
-		width:20%;
-		overflow:auto;
-		}
-		.td_right{
-		font-size: medium;
-		width:60%;
-		text-align:center;
-		border: 1px solid red;
-		overflow:auto;
-		}
-		.mybtn{
-				
-			display:inline-block;
-			width:67px;
-			height:50px;
-			margin-top:20px; 
-			margin-bottom:20px; 
-			text:center;
-			border:2px #C10066 outset;
-			background-color:#DDDDDD;
-		}
-		.mybtn_top{
-			display:inline-block;
-			width:67px;
-			height:50px;
-			margin-top:50px; 
-			margin-bottom:20px; 
-			text:center;
-			border:2px #C10066 outset;			
-			background-color:#DDDDDD;
-		}
-		
-	</style>
+	
+	<link rel="stylesheet" href="a.css">
+	
 	<script language="JavaScript">
 		var total="0";
 		var op="";		
@@ -107,10 +33,10 @@
 			//alert("c2:"+left+" "+right+" "+op);
 				switch(op){				
 					case "+":			
-						alert(">"+op+"< "+total+" "+r_num);
+						//alert(">"+op+"< "+total+" "+r_num);
 						
 						total = parseInt(left)+parseInt(right);						
-						alert("end:" + total+"="+left+ op +right +" "+opt_st);
+						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
 						//total is int
 						ans.innerHTML=DectoHex(total).toUpperCase();	
 						l_num = DectoHex(total);
@@ -268,7 +194,7 @@
 	<div id="border">
 		<!--上方標題區-->
 		<p id="name1">Calculator</p>
-		<div style="border:2px solid; width:90%;left:5%;position:relative;display:inline-block;overflow:auto;">
+		<div id="ANS_div">
 			<span id="sign"></span>
 			<span id="ans">0</span>
 		</div>
@@ -295,7 +221,7 @@
 		<!--下方按鈕區-->
 		
 		<div id="btns">			
-			<button type="button" class="mybtn_top" onclick="test(this,3)">&nbsp</button>
+			<button type="button" class="mybtn_top" onclick="test(this,3)">&nbsp </button>
 			<button type="button" class="mybtn_top" onclick="ANS(this,1)">Mod</button>
 			<button type="button" class="mybtn_top" onclick="ANS(this,2)">CE</button>
 			<button type="button" class="mybtn_top" onclick="ANS(this,2)">C</button>
@@ -319,11 +245,11 @@
 			<button type="button" class="mybtn" onclick="ANS(this,0)">2</button>
 			<button type="button" class="mybtn" onclick="ANS(this,0)">3</button>
 			<button type="button" class="mybtn" onclick="ANS(this,1)">+</button>
-			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp</button>
-			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp</button>
+			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp </button>
+			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp </button>
 			<button type="button" class="mybtn" onclick="ANS(this,2)">±</button>
 			<button type="button" class="mybtn" onclick="ANS(this,0)">0</button>
-			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp</button>
+			<button type="button" class="mybtn" onclick="ANS(this,3)">&nbsp </button>
 			<button type="button" class="mybtn" onclick="ANS(this,1)">=</button>
 			
 			

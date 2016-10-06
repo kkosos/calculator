@@ -1,0 +1,83 @@
+#border{
+			border-radius:5px;
+			border:2px solid red; 
+			width:440px;
+			height:800px;
+			overflow:auto;
+		}
+		#name1{
+			text-align:center;
+			font-size: xx-large;
+			font-weight:800;
+			overflow:auto;
+		}
+		#ans{
+			display:inline-block;
+			text-align:right; 
+			left:1%;
+			margin-left:200px;
+			
+			overflow:auto;
+		}
+		#ANS_div{
+			border:0px solid; 
+			width:90%;
+			left:5%;
+			position:relative;
+			display:inline-block;
+			overflow:auto;
+			
+		}
+		#sign{
+			display:inline-block;
+			text-align:left; 
+			right:1%;		
+			overflow:auto;
+		}
+		#num_base{
+			width:100%;
+			overflow:auto;
+			text-align:left;
+			
+		}
+		#btns{
+			border: 0px solid black;
+			
+		}
+		
+		.td_left {
+		font-weight:700;
+		font-size: x-large;
+		border: 0px solid black;
+		width:20%;
+		overflow:auto;
+		}
+		.td_right{
+		font-size: medium;
+		width:60%;
+		text-align:center;
+		border: 0px solid red;
+		overflow:auto;
+		}
+		.mybtn{
+				
+			display:inline-block;
+			width:67px;
+			height:50px;
+			margin-top:20px; 
+			margin-bottom:20px; 
+			text:center;
+			border:2px #C10066 outset;
+			background-color:#DDDDDD;
+		}
+		.mybtn_top{
+			display:inline-block;
+			width:67px;
+			height:50px;
+			margin-top:50px; 
+			margin-bottom:20px; 
+			text:center;
+			border:2px #C10066 outset;			
+			background-color:#DDDDDD;
+		}
+		
