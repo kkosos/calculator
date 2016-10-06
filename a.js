@@ -155,6 +155,12 @@
 						case "±":
 							//(-1>>>0).toString(16)      2147483647*2+1
 							tmp_dec = parseInt(ans.innerHTML,16)*(-1);
+							if(opt_st==1)
+							l_num=DectoHex(tmp_dec);
+							if(opt_st==2)
+							r_num=DectoHex(tmp_dec);
+
+
 							ans.innerHTML = (tmp_dec>>>0).toString(16).toUpperCase(); 
 							break;								
 					}
