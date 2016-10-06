@@ -68,33 +68,36 @@
 	<script language="JavaScript">
 		var total="0";
 		var total_n=0;
-		var op;
+		var op="";
+		var op_last=false;
 		var opt=false;
-		var r_num=0;
+		var opt_st=0;
+		var l_num="0";
+		var r_num="0";
+		var r_num_log=0;
 		var log="";
-		function apply(op){
-			switch(op){
+		function apply(op,left,right){
+			
+				switch(op){				
 					case "+":			
-						alert("??"+op+" "+total+" "+r_num);
-						if(!opt)
-							{							
-							tmp = parseInt(r_num);
-							}
-							
-						else						
-							tmp = parseInt(total)+parseInt(r_num);
-						total = tmp.toString();
-						ans.innerHTML=total;
-						alert("end:" + op+" "+total+" "+r_num +" "+opt);
-						opt=true;						
+						//alert(">"+op+"< "+total+" "+r_num);
+						
+						total = parseInt(left)+parseInt(right);
+						
+						alert("end:" + total+"="+left+ op +right +" "+opt_st);
+						ans.innerHTML=total.toString();	
+						l_num = total.toString();
+						opt_st=1;
+						
 						break;
-					case "-":
+					/*case "-":
 						alert("?2?"+op+" "+total+" "+r_num);
 						
 						if(!opt)
 							{							
 							tmp = parseInt(r_num);
 							}							
+							
 						else						
 							tmp = parseInt(total)-parseInt(r_num);
 						
@@ -104,26 +107,43 @@
 						break;
 					case "x":
 						alert(op);
-						tmp = parseInt(total)*parseInt(r_num);
+						if(!opt)														
+							tmp = parseInt(r_num);														
+						else						
+							tmp = parseInt(total)*parseInt(r_num);
+							
 						total = tmp.toString();
 						ans.innerHTML=total;
 						opt=true;
 						break;
 					case "%":
 						alert(op);
-						tmp = parseInt(total)/parseInt(r_num);
+						if(!opt)
+							{							
+							tmp = parseInt(r_num);
+							}							
+						else						
+							tmp = parseInt(total)/parseInt(r_num);
 						total = tmp.toString();
 						ans.innerHTML=total;
 						opt=true;
 						break;
 					case "Mod":
 						alert(op);
-						tmp = parseInt(total)%parseInt(r_num);
+						if(!opt)
+							{							
+							tmp = parseInt(r_num);
+							}							
+						else						
+							tmp = parseInt(total)%parseInt(r_num);
 						total = tmp.toString();
 						ans.innerHTML=total;
+						
 						opt=true;
-						break;
-				}		
+						break;//*/
+				}
+				
+					
 		}
 		
 		function ANS(this_,t){			
@@ -132,34 +152,56 @@
 			1 = operator
 			2 = other function
 			3= empty
-			//*/
-			
+			//*/			
 			input = this_.innerHTML;
 			ans = document.getElementById("ans");	
 			r_num=ans.innerHTML;
+			if(opt_st==2){r_num_log=r_num;alert(r_num_log)}
 			switch(t)
 			{
 				case 0:
 				
-					if(ans.innerHTML=="0"||opt){							
+					if(ans.innerHTML=="0"||opt_st==1){							
 						ans.innerHTML = input;
+						
 					}						
 					else{						
-						ans.innerHTML+=input;
-						
+						ans.innerHTML+=input;						
 					}
+					
+					if(opt_st==1)opt_st=2;
 					
 					break;
 					
 				case 1:
 					
 					if(input=="="){	
-						//if(opt)
-							apply(op);	
+						alert("Calc" +l_num +op_last+ r_num + ">>>>"+r_num_log) ;
+						apply(op,l_num,r_num_log);
+						
 					}
-					else{						
-							apply(input);
-							op = input;
+					
+					else{
+						if(op==""&&opt_st==0)		
+							{
+								
+								op=input;								
+								l_num=r_num;
+								opt_st=1;
+								alert("first" +l_num + op);
+							}
+						else if(opt_st==1)
+							{
+								op=input;
+								alert("change" + op);
+								
+								op_last=op;
+							}
+						else if(opt_st==2){
+							apply(op,l_num,r_num);
+							
+						}
+							
 					}
 					
 					break;
@@ -170,7 +212,12 @@
 								ans.innerHTML=0;
 								total=0;
 								opt=false;
+								opt_st=0;
+								l_num=0;
 								r_num=0;
+								r_num_log=0;
+								op="";
+								op_last="";
 								break;
 						case "CE":ans.innerHTML=0;break;
 					}
