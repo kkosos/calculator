@@ -14,9 +14,9 @@
 		}
 		function ToPostFix(log){
 			
-			console.log("POST");
+			//console.log("POST");
 			
-			console.log(log);
+			//console.log(log);
 			var i=0;
 			post=[];
 			stack=[];
@@ -38,7 +38,7 @@
 					
 				default : 
 					post.push(parseInt(log[i],16)|0);
-					console.log(post);
+					//console.log(post);
 					if(!stack.length)break;
 					tmp = stack[stack.length-1];
 					if(tmp=="*"||tmp=="/"||tmp=="%")//top
@@ -76,7 +76,7 @@
 			}
 			return post[0];
 			
-					1+2*(-3)-5	
+					
 		}
 		
 		
@@ -143,8 +143,8 @@
 			//*/			
 			input = this_.innerHTML;
 			
-			console.log(input);
-			console.log(typeof(input));
+			//console.log(input);
+			//console.log(typeof(input));
 			ans = document.getElementById("ans");	
 			r_num=ans.innerHTML;
 			if(opt_st==2){r_num_log=r_num;}
@@ -174,7 +174,8 @@
 						log.push(r_num_log);
 						
 						apply(op,l_num,r_num_log);
-						var fixans=ToPostFix(log);						
+						var fixans=ToPostFix(log);				
+						console.log(log);
 						var t=parseInt(ans.innerHTML,16);
 						if(t!=fixans)
 							ans.innerHTML=DectoHex(fixans).toUpperCase();
@@ -261,7 +262,7 @@
 			document.getElementById("DEC").innerHTML=total.toString(10);
 			document.getElementById("OCT").innerHTML=total.toString(8);
 			document.getElementById("BIN").innerHTML=total.toString(2);*/
-			console.log(log);
+			//console.log(log);
 			document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,16).toString(16);
 			document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML,16);
 			document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,16).toString(8);
