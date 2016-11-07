@@ -4,12 +4,79 @@
 	var l_num="0";
 	var r_num="0";
 	var r_num_log=0;
-	var log="";
+	var log=[];
+	var stack=[];
 		function DectoHex(num){			
 			return (num>>>0).toString(16);			
 		}
 		function HextoDec(str){
 			return parseInt(str,16)&(2147483647*2+1);	
+		}
+		function ToPostFix(log){
+			
+			console.log("POST");
+			
+			console.log(log);
+			var i=0;
+			post=[];
+			stack=[];
+			while(i<log.length)
+			{
+				switch(log[i])
+				{
+					
+				
+				case "+":
+				case "-":					
+				case "*":
+				case "/":
+					stack.push(log[i]);
+					break;
+				case "Mod":
+					stack.push("%");
+					break;
+					
+				default : 
+					post.push(parseInt(log[i],16)|0);
+					console.log(post);
+					if(!stack.length)break;
+					tmp = stack[stack.length-1];
+					if(tmp=="*"||tmp=="/"||tmp=="%")//top
+						{
+							var n2=Number(post.pop());
+							var n1=Number(post.pop());
+							var op_t=stack.pop();
+							switch(op_t){								
+								case "*":
+								
+								post.push(n1*n2);break;
+								case "/":
+								post.push(n1/n2);break;
+								case "%":
+								
+								post.push(n1%n2);
+
+								
+								break;
+								
+							}							
+						}				
+					break;			
+				}
+				i++;
+			}
+			for(var i=1;i<post.length;i++){
+				if(stack[i-1]=="+")
+					post[0]+=post[i]
+				else if(stack[i-1]=="-")
+					post[0]-=post[i]
+				else alert("error!")	
+				
+				
+			}
+			return post[0];
+			
+					1+2*(-3)-5	
 		}
 		
 		
@@ -41,14 +108,14 @@
 						l_num = DectoHex(total);
 						opt_st=1;
 						break;
-					case "x":
+					case "*":
 						total = parseInt(left)*parseInt(right);	
 						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
 						ans.innerHTML=DectoHex(total).toUpperCase();	
 						l_num = DectoHex(total);
 						opt_st=1;
 						break;
-					case "%":
+					case "/":
 						total = parseInt(left)/parseInt(right);	
 						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
 						ans.innerHTML=DectoHex(total).toUpperCase();	
@@ -75,19 +142,24 @@
 			3= empty
 			//*/			
 			input = this_.innerHTML;
+			
+			console.log(input);
+			console.log(typeof(input));
 			ans = document.getElementById("ans");	
 			r_num=ans.innerHTML;
 			if(opt_st==2){r_num_log=r_num;}
 			switch(t)
 			{
 				case 0:
-				
+					
 					if(ans.innerHTML=="0"||opt_st==1){							
 						ans.innerHTML = input; 
 						
+						
 					}						
 					else{						
-						ans.innerHTML+=input;						
+						ans.innerHTML+=input;	
+				
 					}
 					
 					if(opt_st==1)opt_st=2;
@@ -98,16 +170,27 @@
 					
 					if(input=="="){	
 						//alert("Calc" +l_num + r_num + ">>>>"+r_num_log) ;
+						
+						log.push(r_num_log);
+						
 						apply(op,l_num,r_num_log);
-
+						var fixans=ToPostFix(log);						
+						var t=parseInt(ans.innerHTML,16);
+						if(t!=fixans)
+							ans.innerHTML=DectoHex(fixans).toUpperCase();
+							
 					}
 					
 					else{
+						
 						if(op==""&&opt_st==0)		
 							{						
-							
+								
 								op=input;								
 								l_num=r_num;
+								
+								log.push(l_num);
+								log.push(input);
 								opt_st=1;
 								document.getElementById("sign").innerHTML=op;
 								//alert("first" +l_num + op);
@@ -115,17 +198,20 @@
 						else if(opt_st==1)
 							{
 								op=input;
+								log[log.length-1]=input;
 								document.getElementById("sign").innerHTML=op;
-								//alert("change" + op);
+								alert("change" + op);
 								
 							}
 						else if(opt_st==2){
 							
-							
 							document.getElementById("sign").innerHTML=op;
 							apply(op,l_num,r_num);
+							
 							op=input;
 							
+							log.push(r_num);						
+							log.push(input);
 						}
 							
 					}
@@ -134,7 +220,7 @@
 				
 				case 2:
 					switch(input){
-						case "C":
+						case "CE":
 								ans.innerHTML=0;
 								total=0;								
 								opt_st=0;
@@ -143,8 +229,9 @@
 								r_num_log=0;
 								op="";
 								document.getElementById("sign").innerHTML="";
+								log=[];
 								break;
-						case "CE":ans.innerHTML=0;break;
+						case "C":ans.innerHTML=0;break;
 						case "←":
 						tmp = ans.innerHTML;
 						if(tmp.length>1)					
@@ -170,12 +257,11 @@
 				case 3:break;
 			
 			}
-			log+=input;
 			/*document.getElementById("HEX").innerHTML=total.toString(16);
 			document.getElementById("DEC").innerHTML=total.toString(10);
 			document.getElementById("OCT").innerHTML=total.toString(8);
 			document.getElementById("BIN").innerHTML=total.toString(2);*/
-			
+			console.log(log);
 			document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,16).toString(16);
 			document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML,16);
 			document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,16).toString(8);
