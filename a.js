@@ -85,7 +85,7 @@
 		
 		function display(clear,ans_tmp){
 			
-			if(ans_tmp!="")//new value come in Hex
+			if(ans_tmp!=""&&ans_tmp!="fuck")//new value come in Hex
 				{
 				console.log("NOW:"+ans_tmp)
 				ans.innerHTML=ans_tmp;					
@@ -93,7 +93,7 @@
 			switch(BASE_NOW){		
 				case 10:					
 					console.log("8")
-					if(ans_tmp!=""){
+					if(ans_tmp!=""&&ans_tmp!="fuck"){
 						t=HextoDec(ans.innerHTML);
 						ans.innerHTML=t;
 					}						
@@ -115,7 +115,7 @@
 				case 8:						
 				case 2:
 					
-					if(ans_tmp!="")
+					if(ans_tmp!=""&&ans_tmp!="fuck")
 					{
 					document.getElementById("DEC").innerHTML=HextoDec(DectoHex(parseInt(ans.innerHTML,16)));
 					document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,16).toString(16);				
@@ -407,6 +407,7 @@
 									ans.innerHTML = parseInt(tmp_hex,16).toString(2); 
 									break;							
 							}
+							display(0,tmp_hex);	
 						break;								
 					}				
 					break;				
