@@ -10,6 +10,12 @@
 	var curr="";
 	var equal_c=false;
 	var t;
+	var Mode_id=["Dec","Hex","Bin","Oct"]
+		function ChangeMode(last,now){			
+			document.getElementById(Mode_id[last]).style.color="black";				
+			document.getElementById(Mode_id[now%5]).style.color="red";	
+		}
+	
 		function WTF(n){
 			
 			switch(n)
@@ -17,27 +23,32 @@
 				
 				case 0:	
 						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(16);
+						ChangeMode(BASE_NOW%5,16); 
+						//%  to fit array index
 						BASE_NOW=16;
 						alert(BASE_NOW)
 					break;
 				case 1:		
 						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW)&(2147483647*2+1);
+						ChangeMode(BASE_NOW%5,10);
 						BASE_NOW=10;
 						alert(BASE_NOW)
 					break;
 				case 2:	
 						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(8);
+						ChangeMode(BASE_NOW%5,8);
 						BASE_NOW=8;
 						alert(BASE_NOW)
 					break;
 				case 3:		
 						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(2);
+						ChangeMode(BASE_NOW%5,2);
 						BASE_NOW=2;
 						alert(BASE_NOW)
 					break;
 				default:						
 					console.log("error~~")
-					BASE_NOW=16;
+					BASE_NOW=10;
 					break;
 			}
 			
@@ -67,17 +78,19 @@
 			}
 		}
 		
-		function display(s,ans_tmp){
+		function display(clear,ans_tmp){
 			
-			if(ans_tmp!="")
+			if(ans_tmp!="")//new value come in Hex
 				{
-				ans.innerHTML=ans_tmp;				
+				console.log("NOW:"+ans_tmp)
+				ans.innerHTML=ans_tmp;					
 				}
 			switch(BASE_NOW){		
 				case 10:					
+					console.log("8")
 					if(ans_tmp!=""){
 						t=HextoDec(ans.innerHTML);
-						ans.innerHTML=t;5
+						ans.innerHTML=t;
 					}						
 					else{
 						t=DectoHex(ans.innerHTML);
@@ -88,26 +101,35 @@
 					document.getElementById("BIN").innerHTML=parseInt(t,16).toString(2);					
 					break;
 				case 16:
-					document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML);					
 
-				case 8:		
+					document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML);					
+					document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,16).toString(16);				
+					document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,16).toString(8);
+					document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,16).toString(2);
+					break;
+				case 8:						
 				case 2:
-					if(BASE_NOW!=16)
-						document.getElementById("DEC").innerHTML=HextoDec(DectoHex(parseInt(ans.innerHTML,BASE_NOW)));
-					document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(16);				
-					document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(8);
-					document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(2);				
+					
+					if(ans_tmp!="")
+					{
+					document.getElementById("DEC").innerHTML=HextoDec(DectoHex(parseInt(ans.innerHTML,16)));
+					document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,16).toString(16);				
+					document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,16).toString(8);
+					document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,16).toString(2);					
+					ans.innerHTML=parseInt(ans_tmp,16).toString(BASE_NOW);
+					}
 					break;
 				case 0:
 					break;
 				
 			}
-			/*/16 can use
-			document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(16);
-			document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML,BASE_NOW);
-			document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(8);
-			document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(2);
-			36*/
+			if(clear){
+				document.getElementById("DEC").innerHTML="0"
+				document.getElementById("HEX").innerHTML="0"		
+				document.getElementById("OCT").innerHTML="0"
+				document.getElementById("BIN").innerHTML="0"
+				
+			}
 		}
 		
 		
@@ -337,7 +359,7 @@
 				
 				case 2:
 					switch(input){
-						case "CE":
+						case "C":
 								ans.innerHTML=0;
 								total=0;								
 								opt_st=0;
@@ -345,10 +367,11 @@
 								r_num=0;
 								r_num_log=0;
 								op="";
+								display(1,"");
 								document.getElementById("sign").innerHTML="";
 								log=[];
 								break;
-						case "C":ans.innerHTML=0;break;
+						case "CE":ans.innerHTML=0;break;
 						case "←":
 						tmp = ans.innerHTML;
 						if(tmp.length>1)					
@@ -391,12 +414,12 @@
 				case 3:break;
 			
 			}
-			/*document.getElementById("HEX").innerHTML=total.toString(16);
-			document.getElementById("DEC").innerHTML=total.toString(10);
-			document.getElementById("OCT").innerHTML=total.toString(8);
-			document.getElementById("BIN").innerHTML=total.toString(2);*/
-			//console.log(log);
+
+			
+			console.log("HA");
 			display(0,"");
 		
 		}
-		
+	function init(){
+		document.getElementById("Dec").style.color="red";		
+	}

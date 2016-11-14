@@ -24,19 +24,19 @@
 		<!--中間顯示區s-->
 		<!--document.getElementById("num_base").rows[0].cells[0].innerHTML-->
 		<table id="num_base">
-			<tr>
+			<tr id="Hex">
 				<td class="td_left" onclick="WTF(0)">HEX</td>
 				<td class="td_right" id="HEX" >0</td> 
 			</tr>
-						<tr>
+			<tr id="Dec">
 				<td class="td_left" onclick="WTF(1)">DEC</td>
 				<td class="td_right" id="DEC" >0</td> 
 			</tr>
-			<tr>
+			<tr id="Oct">
 				<td class="td_left" onclick="WTF(2)">OCT</td>
 				<td class="td_right" id="OCT" >0</td> 
 			</tr>
-			<tr>
+			<tr id="Bin">
 				<td class="td_left" onclick="WTF(3)">BIN</td>
 				<td class="td_right" id="BIN" >0</td> 
 			</tr>
@@ -79,6 +79,9 @@
 		</div>
 		
 	</div>
+	<script type="text/javascript" >
+	init()
+	</script>
 </body>
 
 </html>
