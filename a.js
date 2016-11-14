@@ -6,7 +6,7 @@
 	var r_num_log=0;
 	var log=[];
 	var stack=[];
-	var	BASE_NOW=16;
+	var	BASE_NOW=10;
 	var curr="";
 	var equal_c=false;
 	var t;
@@ -69,9 +69,19 @@
 		
 		function display(s,ans_tmp){
 			
+			if(ans_tmp!="")
+				{
+				ans.innerHTML=ans_tmp;				
+				}
 			switch(BASE_NOW){		
-				case 10:
-					t=DectoHex(ans.innerHTML,10);
+				case 10:					
+					if(ans_tmp!=""){
+						t=HextoDec(ans.innerHTML);
+						ans.innerHTML=t;5
+					}						
+					else{
+						t=DectoHex(ans.innerHTML);
+					}
 					document.getElementById("HEX").innerHTML=parseInt(t,16).toString(16);
 					document.getElementById("DEC").innerHTML=ans.innerHTML;
 					document.getElementById("OCT").innerHTML=parseInt(t,16).toString(8);
@@ -279,9 +289,10 @@
 						apply(op,l_num,r_num_log);
 						//first equal
 						if(!equal_c){
+							
 							var fixans=ToPostFix(log);		
-							
-							
+							console.log(fixans)
+							display(0,DectoHex(fixans));
 							equal_c=true;
 						}
 						
@@ -385,7 +396,7 @@
 			document.getElementById("OCT").innerHTML=total.toString(8);
 			document.getElementById("BIN").innerHTML=total.toString(2);*/
 			//console.log(log);
-			display(0);
+			display(0,"");
 		
 		}
 		
