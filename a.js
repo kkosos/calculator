@@ -7,7 +7,9 @@
 	var log=[];
 	var stack=[];
 	var	BASE_NOW=16;
+	var curr="";
 	var equal_c=false;
+	var t;
 		function WTF(n){
 			
 			switch(n)
@@ -19,7 +21,7 @@
 						alert(BASE_NOW)
 					break;
 				case 1:		
-						ans.innerHTML=HextoDec(ans.innerHTML,BASE_NOW);
+						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW)&(2147483647*2+1);
 						BASE_NOW=10;
 						alert(BASE_NOW)
 					break;
@@ -40,14 +42,13 @@
 			}
 			
 		}
-		
+		//all converse to Dec
 		function Conversion(num){
 			switch(BASE_NOW)
 			{	//16 10 8 2
 				
-				case 16:	
-					
-					return parseInt(num,BASE_NOW)|0
+				case 16:
+					return parseInt(num,BASE_NOW)
 					break;
 				case 10:			
 					return parseInt(num,BASE_NOW);	
@@ -66,30 +67,37 @@
 			}
 		}
 		
-		function display(s){
+		function display(s,ans_tmp){
 			
-			switch(s){
-				case 16:
-					ans.innerHTML=DectoHex(total).toUpperCase();
-					break;
+			switch(BASE_NOW){		
 				case 10:
-					ans.innerHTML=total.toString();
+					t=DectoHex(ans.innerHTML,10);
+					document.getElementById("HEX").innerHTML=parseInt(t,16).toString(16);
+					document.getElementById("DEC").innerHTML=ans.innerHTML;
+					document.getElementById("OCT").innerHTML=parseInt(t,16).toString(8);
+					document.getElementById("BIN").innerHTML=parseInt(t,16).toString(2);					
 					break;
-				case 8:
-					ans.innerHTML=total.toString(8);
-					break;
+				case 16:
+					document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML);					
+
+				case 8:		
 				case 2:
-					ans.innerHTML=total.toString(2);
+					if(BASE_NOW!=16)
+						document.getElementById("DEC").innerHTML=HextoDec(DectoHex(parseInt(ans.innerHTML,BASE_NOW)));
+					document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(16);				
+					document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(8);
+					document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(2);				
+					break;
+				case 0:
 					break;
 				
 			}
-			
-			
+			/*/16 can use
 			document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(16);
 			document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML,BASE_NOW);
 			document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(8);
 			document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(2);
-			
+			36*/
 		}
 		
 		
@@ -255,7 +263,6 @@
 					}						
 					else{						
 						ans.innerHTML+=input;	
-				
 					}
 					
 					if(opt_st==1)opt_st=2;
@@ -272,11 +279,9 @@
 						apply(op,l_num,r_num_log);
 						//first equal
 						if(!equal_c){
-							var fixans=ToPostFix(log);				
+							var fixans=ToPostFix(log);		
 							
-							var t=parseInt(ans.innerHTML,16);
-							if(t!=fixans)
-							ans.innerHTML=DectoHex(fixans).toUpperCase();
+							
 							equal_c=true;
 						}
 						
@@ -292,8 +297,7 @@
 								l_num=r_num;
 								//log(push)								
 								log.push(Conversion(l_num));
-								log.push(input);
-								
+								log.push(input);								
 								opt_st=1;
 								document.getElementById("sign").innerHTML=op;
 								//alert("first" +l_num + op);
@@ -344,24 +348,26 @@
 						case "±":
 							//(-1>>>0).toString(16)      2147483647*2+1
 							
-							tmp_dec = parseInt(ans.innerHTML,BASE_NOW)*(-1);
+							var tmp_dec = parseInt(ans.innerHTML,BASE_NOW)*(-1);
 							if(opt_st==1)
 							l_num=DectoHex(tmp_dec);
 							if(opt_st==2)
 							r_num=DectoHex(tmp_dec);
+							var tmp_hex=(tmp_dec>>>0).toString(16).toUpperCase();
 							
 							switch(BASE_NOW){
 								case 16:
-									ans.innerHTML = (tmp_dec>>>0).toString(16).toUpperCase(); 
+									ans.innerHTML = tmp_hex;
 									break;
 								case 10:
 									ans.innerHTML = tmp_dec.toString(10); 
 									break;
 								case 8:
-									ans.innerHTML = parseInt("0xffffffff",16)-; 
+									ans.innerHTML = parseInt(tmp_hex,16).toString(8); 
+									
 									break;
 								case 2:
-									ans.innerHTML = (tmp_dec>>>0).toString(16).toUpperCase(); 
+									ans.innerHTML = parseInt(tmp_hex,16).toString(2); 
 									break;
 							
 							}
@@ -379,7 +385,7 @@
 			document.getElementById("OCT").innerHTML=total.toString(8);
 			document.getElementById("BIN").innerHTML=total.toString(2);*/
 			//console.log(log);
-			display();
+			display(0);
 		
 		}
 		
