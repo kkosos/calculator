@@ -6,6 +6,30 @@
 	var r_num_log=0;
 	var log=[];
 	var stack=[];
+	var	BASE_NOW=16;
+	var equal_c=false;
+		function WTF(n){
+			
+			switch(n)
+			{	//16 10 8 2
+				
+				case 0:	
+						BASE_NOW=16;
+					break;
+				case 1:			
+						BASE_NOW=10;
+					break;
+				case 2:		
+						BASE_NOW=8;
+					break;
+				case 3:		
+						BASE_NOW=2;
+					break;
+				
+			}
+			
+		}
+		
 		function DectoHex(num){			
 			return (num>>>0).toString(16);			
 		}
@@ -24,8 +48,6 @@
 			{
 				switch(log[i])
 				{
-					
-				
 				case "+":
 				case "-":					
 				case "*":
@@ -37,6 +59,7 @@
 					break;
 					
 				default : 
+					//16 to 10
 					post.push(parseInt(log[i],16)|0);
 					//console.log(post);
 					if(!stack.length)break;
@@ -52,11 +75,8 @@
 								post.push(n1*n2);break;
 								case "/":
 								post.push(n1/n2);break;
-								case "%":
-								
-								post.push(n1%n2);
-
-								
+								case "%":								
+								post.push(n1%n2);								
 								break;
 								
 							}							
@@ -70,7 +90,7 @@
 					post[0]+=post[i]
 				else if(stack[i-1]=="-")
 					post[0]-=post[i]
-				else alert("error!")	
+				else console.log(stack[i-1])
 				
 				
 			}
@@ -154,7 +174,10 @@
 					
 					if(ans.innerHTML=="0"||opt_st==1){							
 						ans.innerHTML = input; 
-						
+
+						//to handle repeat equal
+						if(equal_c){log=[];l_num=0}	
+						equal_c=false;
 						
 					}						
 					else{						
@@ -172,13 +195,18 @@
 						//alert("Calc" +l_num + r_num + ">>>>"+r_num_log) ;
 						
 						log.push(r_num_log);
-						
+						console.log(l_num,log);
 						apply(op,l_num,r_num_log);
-						var fixans=ToPostFix(log);				
-						console.log(log);
-						var t=parseInt(ans.innerHTML,16);
-						if(t!=fixans)
+						//first equal
+						if(!equal_c){
+							var fixans=ToPostFix(log);				
+							
+							var t=parseInt(ans.innerHTML,16);
+							if(t!=fixans)
 							ans.innerHTML=DectoHex(fixans).toUpperCase();
+							equal_c=true;
+						}
+						
 							
 					}
 					
@@ -189,7 +217,7 @@
 								
 								op=input;								
 								l_num=r_num;
-								
+								//log(push)
 								log.push(l_num);
 								log.push(input);
 								opt_st=1;
@@ -201,7 +229,7 @@
 								op=input;
 								log[log.length-1]=input;
 								document.getElementById("sign").innerHTML=op;
-								alert("change" + op);
+								//alert("change" + op);
 								
 							}
 						else if(opt_st==2){
@@ -210,7 +238,7 @@
 							apply(op,l_num,r_num);
 							
 							op=input;
-							
+							//log(push)
 							log.push(r_num);						
 							log.push(input);
 						}
