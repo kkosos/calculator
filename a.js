@@ -1,4 +1,4 @@
-	var total="0";
+	var total=0;
 	var op="";		
 	var opt_st=0;
 	var l_num="0";
@@ -14,21 +14,87 @@
 			{	//16 10 8 2
 				
 				case 0:	
+						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(16);
 						BASE_NOW=16;
+						alert(BASE_NOW)
 					break;
-				case 1:			
+				case 1:		
+						ans.innerHTML=HextoDec(ans.innerHTML,BASE_NOW);
 						BASE_NOW=10;
+						alert(BASE_NOW)
 					break;
-				case 2:		
+				case 2:	
+						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(8);
 						BASE_NOW=8;
+						alert(BASE_NOW)
 					break;
 				case 3:		
+						ans.innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(2);
 						BASE_NOW=2;
+						alert(BASE_NOW)
+					break;
+				default:						
+					console.log("error~~")
+					BASE_NOW=16;
+					break;
+			}
+			
+		}
+		
+		function Conversion(num){
+			switch(BASE_NOW)
+			{	//16 10 8 2
+				
+				case 16:	
+					
+					return parseInt(num,BASE_NOW)|0
+					break;
+				case 10:			
+					return parseInt(num,BASE_NOW);	
+					break;
+				case 8:		
+					return parseInt(num,BASE_NOW);	
+					break;
+				case 2:		
+					return parseInt(num,BASE_NOW);		
+					break;
+				default:						
+					console.log("error~~~")
+					BASE_NOW=16;
+					return parseInt(num,BASE_NOW);		
+					break;
+			}
+		}
+		
+		function display(s){
+			
+			switch(s){
+				case 16:
+					ans.innerHTML=DectoHex(total).toUpperCase();
+					break;
+				case 10:
+					ans.innerHTML=total.toString();
+					break;
+				case 8:
+					ans.innerHTML=total.toString(8);
+					break;
+				case 2:
+					ans.innerHTML=total.toString(2);
 					break;
 				
 			}
 			
+			
+			document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(16);
+			document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML,BASE_NOW);
+			document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(8);
+			document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,BASE_NOW).toString(2);
+			
 		}
+		
+		
+		
+		
 		
 		function DectoHex(num){			
 			return (num>>>0).toString(16);			
@@ -60,7 +126,7 @@
 					
 				default : 
 					//16 to 10
-					post.push(parseInt(log[i],16)|0);
+					post.push(log[i]);
 					//console.log(post);
 					if(!stack.length)break;
 					tmp = stack[stack.length-1];
@@ -68,6 +134,7 @@
 						{
 							var n2=Number(post.pop());
 							var n1=Number(post.pop());
+							
 							var op_t=stack.pop();
 							switch(op_t){								
 								case "*":
@@ -85,6 +152,7 @@
 				}
 				i++;
 			}
+			//console.log(post)
 			for(var i=1;i<post.length;i++){
 				if(stack[i-1]=="+")
 					post[0]+=post[i]
@@ -115,8 +183,9 @@
 						total = parseInt(left)+parseInt(right);						
 						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
 						//total is int
-						ans.innerHTML=DectoHex(total).toUpperCase();	
-						l_num = DectoHex(total);
+						display(BASE_NOW);
+						//ans.innerHTML=DectoHex(total).toUpperCase();	
+						//l_num = DectoHex(total);
 						//alert("end:" + total+"="+l_num);
 						opt_st=1;
 						
@@ -124,28 +193,32 @@
 					case "-":
 						total = parseInt(left)-parseInt(right);	
 						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
-						ans.innerHTML=DectoHex(total).toUpperCase();	
+						display(BASE_NOW);
+						//ans.innerHTML=DectoHex(total).toUpperCase();	
 						l_num = DectoHex(total);
 						opt_st=1;
 						break;
 					case "*":
 						total = parseInt(left)*parseInt(right);	
 						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
-						ans.innerHTML=DectoHex(total).toUpperCase();	
+						//ans.innerHTML=DectoHex(total).toUpperCase();	
+						display(BASE_NOW);
 						l_num = DectoHex(total);
 						opt_st=1;
 						break;
 					case "/":
 						total = parseInt(left)/parseInt(right);	
 						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
-						ans.innerHTML=DectoHex(total).toUpperCase();	
+						//ans.innerHTML=DectoHex(total).toUpperCase();	
+						display(BASE_NOW);
 						l_num = DectoHex(total);
 						opt_st=1;
 						break;
 					case "Mod":
 						total = parseInt(left)%parseInt(right);	
 						//alert("end:" + total+"="+left+ op +right +" "+opt_st);
-						ans.innerHTML=DectoHex(total).toUpperCase();
+						//ans.innerHTML=DectoHex(total).toUpperCase();
+						display(BASE_NOW);
 						l_num = DectoHex(total);
 						opt_st=1;
 						break;//*/
@@ -167,7 +240,7 @@
 			//console.log(typeof(input));
 			ans = document.getElementById("ans");	
 			r_num=ans.innerHTML;
-			if(opt_st==2){r_num_log=r_num;}
+			if(opt_st==2){r_num_log=Conversion(r_num);}
 			switch(t)
 			{
 				case 0:
@@ -176,7 +249,7 @@
 						ans.innerHTML = input; 
 
 						//to handle repeat equal
-						if(equal_c){log=[];l_num=0}	
+						if(equal_c){log=[];l_num="0"}	
 						equal_c=false;
 						
 					}						
@@ -217,9 +290,10 @@
 								
 								op=input;								
 								l_num=r_num;
-								//log(push)
-								log.push(l_num);
+								//log(push)								
+								log.push(Conversion(l_num));
 								log.push(input);
+								
 								opt_st=1;
 								document.getElementById("sign").innerHTML=op;
 								//alert("first" +l_num + op);
@@ -235,11 +309,10 @@
 						else if(opt_st==2){
 							
 							document.getElementById("sign").innerHTML=op;
-							apply(op,l_num,r_num);
-							
+							apply(op,l_num,r_num);							
 							op=input;
 							//log(push)
-							log.push(r_num);						
+							log.push(Conversion(r_num));
 							log.push(input);
 						}
 							
@@ -270,14 +343,29 @@
 						break;
 						case "±":
 							//(-1>>>0).toString(16)      2147483647*2+1
-							tmp_dec = parseInt(ans.innerHTML,16)*(-1);
+							
+							tmp_dec = parseInt(ans.innerHTML,BASE_NOW)*(-1);
 							if(opt_st==1)
 							l_num=DectoHex(tmp_dec);
 							if(opt_st==2)
 							r_num=DectoHex(tmp_dec);
-
-
-							ans.innerHTML = (tmp_dec>>>0).toString(16).toUpperCase(); 
+							
+							switch(BASE_NOW){
+								case 16:
+									ans.innerHTML = (tmp_dec>>>0).toString(16).toUpperCase(); 
+									break;
+								case 10:
+									ans.innerHTML = tmp_dec.toString(10); 
+									break;
+								case 8:
+									ans.innerHTML = parseInt("0xffffffff",16)-; 
+									break;
+								case 2:
+									ans.innerHTML = (tmp_dec>>>0).toString(16).toUpperCase(); 
+									break;
+							
+							}
+							
 							break;								
 					}
 				
@@ -291,9 +379,7 @@
 			document.getElementById("OCT").innerHTML=total.toString(8);
 			document.getElementById("BIN").innerHTML=total.toString(2);*/
 			//console.log(log);
-			document.getElementById("HEX").innerHTML=parseInt(ans.innerHTML,16).toString(16);
-			document.getElementById("DEC").innerHTML=HextoDec(ans.innerHTML,16);
-			document.getElementById("OCT").innerHTML=parseInt(ans.innerHTML,16).toString(8);
-			document.getElementById("BIN").innerHTML=parseInt(ans.innerHTML,16).toString(2);
+			display();
+		
 		}
 		
